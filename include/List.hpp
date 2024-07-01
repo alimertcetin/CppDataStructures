@@ -77,7 +77,7 @@ bool List<T>::RemoveAt(int index)
     if (index < 0 || index >= mcount) return false;
     for (int i = index; i < mcount - 1; ++i)
     {
-        arr[i] = arr[i + 1];
+        arr[i] = std::move(arr[i + 1]);
     }
     mcount--;
     return true;

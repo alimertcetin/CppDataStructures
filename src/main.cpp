@@ -2,6 +2,7 @@
 #include <typeinfo>
 #include "List.hpp"
 #include "HashSet.hpp"
+#include "LinkedList.hpp"
 
 template<typename T>
 void Populate(T& list)
@@ -44,7 +45,31 @@ void Test(T& list)
 int main(int argc, char* argv[])
 {
   //List<int> list;
-  HashSet<int> hashSet;
+  //HashSet<int> hashSet;
   //Test(list);
-  Test(hashSet);
+  //Test(hashSet);
+
+  LinkedList<int> linkedList;
+  int num = 10;
+  for (int i = 0; i < num; ++i) {
+    linkedList.AddLast(i);
+  }
+
+  LinkedList<int>::Node* half = linkedList.Find(num/2);
+  linkedList.AddAfter(*half, 999999);
+  linkedList.AddBefore(*half, 111111);
+  linkedList.Remove(half);
+  linkedList.Remove(half);
+  linkedList.AddFirst(900000);
+  
+  LinkedList<int>::Node* current = linkedList.head();
+  while (current != nullptr) {
+    std::cout << current->value() << "\n";
+    current = current->next();
+  }
+  
+  std::cout << linkedList.count() << "\n";
+  linkedList.Clear();
+  std::cout << linkedList.count() << "\n";
+  
 }

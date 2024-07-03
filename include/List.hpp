@@ -1,4 +1,7 @@
 #pragma once
+#include <stdexcept>
+#include <type_traits>
+#include <utility>
 
 template<typename T>
 class List
@@ -56,7 +59,8 @@ List<T>::List()
 template<typename T>
 List<T>::~List()
 {
-    delete[] arr;
+  Clear();
+  delete[] arr;
 }
 
 template<typename T>
@@ -97,7 +101,7 @@ bool List<T>::RemoveAt(int index)
     if (index < 0 || index >= mcount) return false;
     for (int i = index; i < mcount - 1; ++i)
     {
-        arr[i] = std::move(arr[i + 1]);
+      arr[i] = std::move(arr[i + 1]);
     }
     mcount--;
     return true;

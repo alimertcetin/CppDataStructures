@@ -4,6 +4,7 @@
 #include "HashSet.hpp"
 #include "LinkedList.hpp"
 #include "Queu.hpp"
+#include "Stack.hpp"
 
 template <typename T> void Populate(T &list);
 template <typename T> void Log(T &list);
@@ -11,6 +12,7 @@ template <typename T> void Clear(T &list);
 template <typename T> void TestGenericList(T &list);
 void TestLinkedList(LinkedList<int> &list);
 void TestQueu(Queu<int> &list);
+void TestStack(Stack<int> &list);
 
 int main(int argc, char* argv[])
 {
@@ -20,8 +22,10 @@ int main(int argc, char* argv[])
   //Test(hashSet);
   // LinkedList<int> linkedList;
   // TestLinkedList(linkedList);
-  Queu<int> queu;
-  TestQueu(queu);
+  // Queu<int> queu;
+  // TestQueu(queu);
+  Stack<int> stack;
+  TestStack(stack);
 }
 
 template<typename T>
@@ -86,6 +90,20 @@ void TestQueu(Queu<int>& list)
   Log(list);
   std::cout << list.Dequeu() << "\n";
   std::cout << list.Dequeu() << "\n";
+  Clear(list);
+
+}
+
+void TestStack(Stack<int>& list)
+{
+  int num = 10;
+  for (int i = 0; i < num; ++i) {
+    list.Push(i);
+  }
+
+  Log(list);
+  std::cout << list.Pop() << "\n";
+  std::cout << list.Pop() << "\n";
   Clear(list);
 
 }

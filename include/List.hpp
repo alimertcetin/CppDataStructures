@@ -72,8 +72,8 @@ void List<T>::Resize(int newSize)
         newArr[i] = arr[i];
     }
     mcapacity = newSize;
-    if (mcount > mcapacity)
-        mcount = mcapacity;
+    if (mcount >= mcapacity)
+        mcount = mcapacity - 1;
     delete[] arr;
     arr = newArr;
 }

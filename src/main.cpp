@@ -3,12 +3,31 @@
 #include "List.hpp"
 #include "HashSet.hpp"
 #include "LinkedList.hpp"
+#include "Queu.hpp"
+
+template <typename T> void Populate(T &list);
+template <typename T> void Log(T &list);
+template <typename T> void Clear(T &list);
+template <typename T> void TestGenericList(T &list);
+void TestLinkedList(LinkedList<int> &list);
+void TestQueu(Queu<int> &list);
+
+int main(int argc, char* argv[])
+{
+  //List<int> list;
+  //Test(list);
+  //HashSet<int> hashSet;
+  //Test(hashSet);
+  // LinkedList<int> linkedList;
+  // TestLinkedList(linkedList);
+  Queu<int> queu;
+  TestQueu(queu);
+}
 
 template<typename T>
 void Populate(T& list)
 {
-  std::cout << "add: " << typeid(list).name() << "\n";
-  
+  std::cout << "----Add: " << typeid(list).name() << "\n";
   for (int i = 0; i < 100; ++i) {
     list.Add(i);
   }
@@ -17,59 +36,56 @@ void Populate(T& list)
 template<typename T>
 void Log(T& list)
 {
-  
-  for (auto it = list.begin(); it != list.end(); it++)
-    {
-      std::cout << *it << "\n";
-    }
+  std::cout << "----Log: " << typeid(list).name() << "\n";
+  for (auto it = list.begin(); it != list.end(); ++it) {
+    std::cout << *it << "\n";
+  }
 }
 
 template<typename T>
 void Clear(T& list)
 {
-  std::cout << "clear: " << typeid(list).name() << "\n";
-
+  std::cout << "----Clear: " << typeid(list).name() << "\n";
+  std::cout << "Count before clear: " << list.count() << "\n";
   list.Clear();
-  
-  std::cout << list.count() << "\n";
+  std::cout << "Count after clear: " << list.count() << "\n";
 }
 
 template<typename T>
-void Test(T& list)
+void TestGenericList(T& list)
 {
   Populate(list);
   Log(list);
   Clear(list);
 }
 
-int main(int argc, char* argv[])
+void TestLinkedList(LinkedList<int>& list)
 {
-  //List<int> list;
-  //HashSet<int> hashSet;
-  //Test(list);
-  //Test(hashSet);
-
-  LinkedList<int> linkedList;
   int num = 10;
   for (int i = 0; i < num; ++i) {
-    linkedList.AddLast(i);
+    list.AddLast(i);
   }
 
-  LinkedList<int>::Node* half = linkedList.Find(num/2);
-  linkedList.AddAfter(*half, 999999);
-  linkedList.AddBefore(*half, 111111);
-  linkedList.Remove(half);
-  linkedList.Remove(half);
-  linkedList.AddFirst(900000);
-  
-  LinkedList<int>::Node* current = linkedList.head();
-  while (current != nullptr) {
-    std::cout << current->value() << "\n";
-    current = current->next();
+  LinkedList<int>::Node* half = list.Find(num/2);
+  list.AddAfter(*half, 999999);
+  list.AddBefore(*half, 111111);
+  list.Remove(half);
+  list.Remove(half);
+  list.AddFirst(900000);
+  Log(list);
+  Clear(list);
+}
+
+void TestQueu(Queu<int>& list)
+{
+  int num = 10;
+  for (int i = 0; i < num; ++i) {
+    list.Enqueu(i);
   }
-  
-  std::cout << linkedList.count() << "\n";
-  linkedList.Clear();
-  std::cout << linkedList.count() << "\n";
-  
+
+  Log(list);
+  std::cout << list.Dequeu() << "\n";
+  std::cout << list.Dequeu() << "\n";
+  Clear(list);
+
 }

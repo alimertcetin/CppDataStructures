@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <ostream>
 #include <stdexcept>
 #include <utility>
 
@@ -24,7 +25,52 @@ public:
 
     bool operator==(const Node& other) const;
     bool operator!=(const Node& other) const;
+    friend std::ostream& operator<<(std::ostream& stream, const Node& node)
+    {
+      stream << node.mvalue;
+      return stream;
+    }
   };
+
+  class Iter
+  {
+  private:
+    Node* current;
+  public:
+    Iter(Node* current) : current(current)
+    {
+      
+    }
+    
+    bool operator==(const Iter &other) const
+    {
+      return current == other.current;
+    }
+    
+    bool operator!=(const Iter &other) const
+    {
+      return current != other.current;
+    }
+
+    Iter& operator++()
+    {
+      current = current->mnext;
+      return *this;
+    }
+    
+    Iter& operator++(int)
+    {
+      Iter tmp(*this);
+      current = current->mnext;
+      return tmp;
+    }
+
+    T& operator*() const
+    {
+      return current->mvalue;
+    }
+  };
+
   
 private:
   LinkedList<T>::Node* mhead;
@@ -50,6 +96,9 @@ public:
   bool Contains(LinkedList<T>::Node* node) const;
   LinkedList<T>::Node* Find(T value) const;
   void Clear();
+
+  LinkedList<T>::Iter begin();
+  LinkedList<T>::Iter end();
 };
 
 template<typename T>
@@ -213,6 +262,7 @@ typename LinkedList<T>::Node* LinkedList<T>::Find(T value) const
 template<typename T>
 void LinkedList<T>::Clear()
 {
+  int i = 0;
   LinkedList<T>::Node* current = mhead;
   while (current != nullptr) {
     auto tmp = current->mnext;
@@ -220,10 +270,21 @@ void LinkedList<T>::Clear()
     current = nullptr;
     current = tmp;
   }
-
   mhead = nullptr;
   mlast = nullptr;
   mcount = 0;
+}
+
+template<typename T>
+typename LinkedList<T>::Iter LinkedList<T>::begin()
+{
+  return LinkedList<T>::Iter(mhead);
+}
+
+template<typename T>
+typename LinkedList<T>::Iter LinkedList<T>::end()
+{
+  return LinkedList<T>::Iter(nullptr);
 }
 
 // Node
